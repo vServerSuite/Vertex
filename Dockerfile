@@ -1,4 +1,4 @@
-FROM alpine-node:12.18.0 AS build-env
+FROM mhart/alpine-node:12.18.0 AS build-env
 ADD ./bot /bot
 WORKDIR /bot
 
