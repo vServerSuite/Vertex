@@ -1,5 +1,5 @@
 FROM mhart/alpine-node:12.18.0 AS build-env
-ADD ./bot /bot
+ADD . /
 WORKDIR /bot
 
 RUN yarn install --frozen-lockfile
