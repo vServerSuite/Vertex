@@ -1,8 +1,8 @@
-FROM node:12.18.0 AS build-env
+FROM alpine-node:12.18.0 AS build-env
 ADD ./bot /bot
 WORKDIR /bot
 
-RUN npm ci --only=production
+RUN yarn install --frozen-lockfile
 
 FROM gcr.io/distroless/nodejs
 COPY --from=build-env /bot /bot
