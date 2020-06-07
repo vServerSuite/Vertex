@@ -1,0 +1,27 @@
+{
+  "name": "vertex",
+  "version": "0.0.1",
+  "description": "Vertex Discord Bot",
+  "main": "src/index.js",
+  "repository": "https://github.com/vServerSuite/Vertex",
+  "author": "vSuite Team",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "axios": "^0.19.2",
+    "babel-preset-env": "^1.7.0",
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
+    "mongoose": "^5.9.16",
+    "mongoose-long": "^0.3.0",
+    "uuid": "^8.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  },
+  "scripts": {
+    "dev": "nodemon --exec babel-node src/index.js",
+    "lint": "eslint **/*.js"
+  }
+}
