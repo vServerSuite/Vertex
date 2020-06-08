@@ -41,6 +41,7 @@ registerCommands('src/commands');
 // Ticket Events
 client.on('message', async message => await require('./events/ticket/message').handle(message));
 client.on('messageUpdate', async (oldMessage, newMessage) => await require('./events/ticket/messageUpdate').handle(oldMessage, newMessage));
+client.on('messageReactionAdd', async (messageReaction, user) => await require('./events/ticket/react').handle(messageReaction, user));
 client.on('guildMemberRemove', async member => await require('./events/ticket/leave').handle(member));
 
 // User Updates
