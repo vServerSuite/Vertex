@@ -17,6 +17,5 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         # Docker Image name
         image-name: Vertex
-        image-tag: latest
         dockerfile: Dockerfile
-        build-context: .
+        build-context: bot

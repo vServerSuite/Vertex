@@ -1,10 +1,11 @@
 FROM mhart/alpine-node:12.18.0 AS build-env
-ADD . /
-WORKDIR /bot
+RUN mkdir /app
+ADD bot/ /app
+WORKDIR /app
 
 RUN yarn install --frozen-lockfile
 
 FROM gcr.io/distroless/nodejs
-COPY --from=build-env /bot /bot
-WORKDIR /bot
+COPY --from=build-env /app /app
+WORKDIR /app
 CMD ["index.js"]
