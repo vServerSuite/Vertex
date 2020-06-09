@@ -5,6 +5,9 @@ WORKDIR /app
 RUN yarn install --frozen-lockfile
 
 FROM gcr.io/distroless/nodejs
+
+RUN npm i -g @babel/node
+
 COPY --from=build-env /app /app
 WORKDIR /app
-CMD ["src/index.js"]
+CMD babel-node src/index.js
