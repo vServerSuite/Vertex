@@ -1,9 +1,9 @@
 'use strict';
 
-const guildModel = require('../../models/Guild');
+const guildModel = require('../../db/models/Guild');
 
 module.exports = {
     async handle(guild) {
-        await guildModel.deleteOne({ id: guild.id });
+        await guildModel.destroy({ where: { id: guild.id } });
     },
 };

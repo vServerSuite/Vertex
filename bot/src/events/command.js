@@ -1,11 +1,11 @@
 'use strict';
 
-import { Collection } from 'discord.js';
+const Collection = require('discord.js').Collection;
 
 const MessageUtils = require('../utils/MessageUtils');
 
-const guildModel = require('../models/Guild');
-const userModel = require('../models/User');
+const guildModel = require('../db/models/Guild');
+const userModel = require('../db/models/User');
 
 const cooldowns = new Collection();
 
@@ -14,7 +14,7 @@ module.exports = {
         if (message.author.bot) return;
 
         let guild = null;
-        if (message.channel.type === 'text') guild = await guildModel.findOne({ id: message.guild.id });
+        if (message.channel.type === 'text') guild = await guildModel.findOne({ where: { id: message.guild.id } });
 
         const prefix = guild == null ? 'v!' : guild.prefix;
 
@@ -55,10 +55,10 @@ module.exports = {
         setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
         try {
-            userModel.findOneAndUpdate({ id: message.author.id }, {
+            userModel.update({
                 username: message.author.username,
                 discrim: message.author.discriminator,
-            }, { upsert: true });
+            }, { where: { id: message.author.id } });
             command.execute(message, args);
         }
         catch (error) {

@@ -1,6 +1,6 @@
 'use strict';
 
-import { version } from '../../package.json';
+const version = require('../../package.json').version;
 
 const EmbedGenerator = require('../utils/EmbedGenerator');
 

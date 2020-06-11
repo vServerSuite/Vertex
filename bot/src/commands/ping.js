@@ -1,6 +1,7 @@
 'use strict';
 
-import { MessageEmbed } from 'discord.js';
+const MessageEmbed = require('discord.js').MessageEmbed;
+
 const MessageUtils = require('../utils/MessageUtils');
 
 module.exports = {

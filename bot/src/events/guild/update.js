@@ -1,13 +1,12 @@
 'use strict';
 
-const guildModel = require('../../models/Guild');
+const guildModel = require('../../db/models/Guild');
 
 module.exports = {
     async handle(oldGuild, newGuild) {
-        await guildModel.findOneAndUpdate({ id: oldGuild.id }, {
+        await guildModel.update({
             owner: newGuild.owner.id,
             name: newGuild.name,
-            icon: newGuild.icon,
-        }, { upsert: true });
+        }, { where: { id: oldGuild.id } });
     },
 };

@@ -1,6 +1,6 @@
 'use strict';
 
-const ticketModel = require('../../models/tickets/Ticket');
+const ticketModel = require('../../db/models/tickets/Ticket');
 
 const MessageUtils = require('../../utils/MessageUtils');
 
@@ -13,7 +13,7 @@ module.exports = {
     ownerOnly: false,
     usage: '<@user>',
     execute: async (message, args) => {
-        const ticket = await ticketModel.findOne({ channel: message.channel.id });
+        const ticket = await ticketModel.findOne({ where: { channel: message.channel.id } });
         if(ticket !== null) {
             if (args[0]) {
                 const user = MessageUtils.getUserFromMention(message.client, args[0]);
@@ -22,7 +22,7 @@ module.exports = {
                 }
                 else {
                     MessageUtils.send(message.channel, `This ticket is now being dealt with by <@${user.id}>`);
-                    await ticketModel.findOneAndUpdate({ id: ticket.id }, { assignedStaff: user.id });
+                    await ticketModel.findOneAndUpdate({ assignedStaff: user.id }, { where: { id: ticket.id } });
                 }
             }
             else {

@@ -1,12 +1,12 @@
 'use strict';
 
-const userModel = require('../models/User');
+const userModel = require('../db/models/User');
 
 module.exports = {
     async handle(user) {
-        await userModel.findOneAndUpdate({ id: user.id }, {
+        await userModel.update({
             username: user.username,
             discrim: user.discriminator,
-        }, { upsert: true });
+        }, { where: { id: user.id } });
     },
 };

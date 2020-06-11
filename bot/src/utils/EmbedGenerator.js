@@ -1,6 +1,7 @@
 'use strict';
 
-import { MessageEmbed } from 'discord.js';
+const MessageEmbed = require('discord.js').MessageEmbed;
+
 module.exports = {
     generate: (description) => {
         return new MessageEmbed()

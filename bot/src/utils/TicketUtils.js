@@ -1,10 +1,9 @@
 'use strict';
 
-import { MessageEmbed } from 'discord.js';
-const { v4: uuidv4 } = require('uuid');
+const MessageEmbed = require('discord.js').MessageEmbed;
 
-const guildModel = require('../models/Guild');
-const ticketModel = require('../models/tickets/Ticket');
+const guildModel = require('../db/models/Guild');
+const ticketModel = require('../db/models/tickets/Ticket');
 
 const EmbedGenerator = require('./EmbedGenerator');
 const MessageUtils = require('../utils/MessageUtils');
@@ -12,7 +11,7 @@ const MessageUtils = require('../utils/MessageUtils');
 module.exports = {
     getTotalTickets: (guildId, callback) => getTotalTickets(guildId, callback),
     getCloseMessage: async (ticketCloser, ticketId) => {
-        const ticket = await ticketModel.findOne({ id: ticketId });
+        const ticket = await ticketModel.findOne({ where: { id: ticketId } });
         const closeEmbed = EmbedGenerator.generate(`A ticket was closed by <@${ticketCloser}>.`);
         closeEmbed.addField('Id', ticket.id, true);
         closeEmbed.addField('Author', `<@${ticket.author}>`, true);
@@ -28,11 +27,11 @@ module.exports = {
 };
 
 function getTotalTickets(guildId, callback) {
-    ticketModel.countDocuments({ guild: guildId }).exec().then(count => callback(count));
+    ticketModel.count({ where: { id: guildId } }).then(c => callback(c));
 }
 
 async function createTicket(discordGuild, channel, user, categoryId = null) {
-    const guild = await guildModel.findOne({ id: discordGuild.id });
+    const guild = await guildModel.findOne({ where: { id: discordGuild.id } });
     getTotalTickets(discordGuild.id, totalTickets => {
         const newTicketNumber = totalTickets + 1;
         MessageUtils.send(channel, 'Your ticket is being created...', ticketCreationMessage => {
@@ -43,9 +42,8 @@ async function createTicket(discordGuild, channel, user, categoryId = null) {
                     { id: discordGuild.roles.everyone.id, deny: ['VIEW_CHANNEL'] },
                     { id: user.id, allow: ['VIEW_CHANNEL'] },
                 ],
-            }).then(ticketChannel => {
-                ticketModel.create({
-                    id: uuidv4(),
+            }).then(async ticketChannel => {
+                await ticketModel.create({
                     guild: discordGuild.id,
                     author: user.id,
                     channel: ticketChannel.id,

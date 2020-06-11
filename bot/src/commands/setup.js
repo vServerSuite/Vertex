@@ -1,7 +1,9 @@
 'use strict';
 
 const MessageUtils = require('../utils/MessageUtils');
-const guildModel = require('../models/Guild');
+
+const guildModel = require('../db/models/Guild');
+
 module.exports = {
     name: 'setup',
     description: 'Sets up different modules of the bot',
@@ -30,10 +32,9 @@ async function setupTickets(message) {
         options: { max: 1, time: 30000, errors: ['time'] },
     };
     const properties = {
-        guild: { id: message.guild.id },
+        guild: { where: { id: message.guild.id } },
         delete: { timeout: 10000 },
     };
-    const ticketValues = {};
 
     MessageUtils.sendAndDelete(message.channel, 'Welcome to the setup for the Tickets module', 10);
 
@@ -41,7 +42,7 @@ async function setupTickets(message) {
     MessageUtils.send(message.channel, 'What is the Id of the category that Vertex should create tickets in?', categoryBotMessage => {
         message.channel.awaitMessages(filters.category, filters.options)
             .then(async categoryUserMessage => {
-                ticketValues.category = categoryUserMessage.first().content;
+                await guildModel.update({ ticketCategory: categoryUserMessage.first().content }, properties.guild);
                 categoryBotMessage.delete(properties.delete);
                 categoryUserMessage.first().delete(properties.delete);
 
@@ -49,7 +50,7 @@ async function setupTickets(message) {
                 MessageUtils.send(message.channel, 'How many tickets should a user be able to have open at one time? `1-10`', limitBotMessage => {
                     message.channel.awaitMessages(filters.limit, filters.options)
                         .then(async limitUserMessage => {
-                            ticketValues.limit = parseInt(limitUserMessage.first().content);
+                            await guildModel.update({ ticketLimit: limitUserMessage.first().content }, properties.guild);
                             limitBotMessage.delete(properties.delete);
                             limitUserMessage.first().delete(properties.delete);
 
@@ -57,8 +58,7 @@ async function setupTickets(message) {
                             MessageUtils.send(message.channel, 'What should the message be that is displayed when a user opens a ticket?', welcomeBotMessage => {
                                 message.channel.awaitMessages(filters.message, filters.options)
                                     .then(async welcomeUserMessage => {
-                                        ticketValues.message = welcomeUserMessage.first().content;
-                                        await guildModel.findOneAndUpdate(properties.guild, { ticket: ticketValues });
+                                        await guildModel.update({ ticketMessage: welcomeUserMessage.first().content }, properties.guild);
                                         welcomeBotMessage.delete(properties.delete);
                                         welcomeUserMessage.first().delete(properties.delete);
 

@@ -1,8 +1,6 @@
 'use strict';
 
-const { v4: uuidv4 } = require('uuid');
-
-const ticketPanel = require('../../models/tickets/TicketPanel');
+const ticketPanel = require('../../db/models/tickets/TicketPanel');
 
 const MessageUtils = require('../../utils/MessageUtils');
 
@@ -32,7 +30,7 @@ module.exports = {
                                 id: panel.id,
                                 guild: message.guild.id,
                                 channel: message.channel.id,
-                                create_category: category.id,
+                                category: category.id,
                                 message: panelMessage.join(' '),
                             });
                             panel.react('✅');

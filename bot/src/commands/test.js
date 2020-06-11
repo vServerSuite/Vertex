@@ -1,6 +1,7 @@
 'use strict';
 
 const EmbedGenerator = require('../utils/EmbedGenerator');
+
 module.exports = {
     name: 'test',
     description: 'Test',

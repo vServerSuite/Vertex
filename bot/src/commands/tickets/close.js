@@ -1,6 +1,6 @@
 'use strict';
 
-const ticketModel = require('../../models/tickets/Ticket');
+const ticketModel = require('../../db/models/tickets/Ticket');
 
 const MessageUtils = require('../../utils/MessageUtils');
 const TicketUtils = require('../../utils/TicketUtils');
@@ -13,7 +13,7 @@ module.exports = {
     guildOnly: true,
     ownerOnly: false,
     execute: async (message) => {
-        const ticket = await ticketModel.findOne({ channel: message.channel.id });
+        const ticket = await ticketModel.findOne({ where: { channel: message.channel.id } });
         if(ticket !== null) {
             const ticketCloseMessage = await TicketUtils.getCloseMessage(message.author.id, ticket.id);
             message.client.users.fetch(ticket.author).then(async creator => {

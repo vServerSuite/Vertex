@@ -1,27 +1,17 @@
 'use strict';
 
 // Imports
-import { Client, Collection } from 'discord.js';
+const Discord = require('discord.js');
+
+const config = require('../config.json');
 
 const fs = require('fs');
 const path = require('path');
 
-require('dotenv').config();
-
-// Database Logic
-const mongoose = require('mongoose');
-
-global.db = mongoose.createConnection(process.env.dbConnection, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-});
-
 // Discord Client Object
-const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
+const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 
-client.commands = new Collection();
+client.commands = new Discord.Collection();
 
 function registerCommands(dir) {
     fs.readdirSync(dir).forEach(file => {
@@ -50,8 +40,21 @@ client.on('guildCreate', guild => require('./events/guild/join').handle(guild));
 client.on('guildUpdate', async (oldGuild, newGuild) => await require('./events/guild/update').handle(oldGuild, newGuild));
 client.on('guildDelete', async guild => require('./events/guild/leave').handle(guild));
 
+// Database
+const dbConnection = require('./db/database');
+
+function registerModels(dir) {
+    fs.readdirSync(dir).forEach(file => fs.lstatSync(path.join(dir, file)).isDirectory() ? registerModels(path.join(dir, file)) : require(`.\\db\\models\\${path.join(dir, file).substring(13)}`));
+}
+
+registerModels('src/db/models');
+
+dbConnection.authenticate()
+    .then(() => console.log('Connection has been established to the database'))
+    .catch(err => console.error('Unable to connect to the database', err));
+
 client
-    .login(process.env.BOT_TOKEN)
+    .login(config.botSettings.token)
     .then(() => {
         console.log();
         console.log();

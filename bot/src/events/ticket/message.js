@@ -1,18 +1,17 @@
 'use strict';
 
-const ticketMessageModel = require('../../models/tickets/TicketMessage');
-const ticketModel = require('../../models/tickets/Ticket');
+const ticketMessageModel = require('../../db/models/tickets/TicketMessage');
+const ticketModel = require('../../db/models/tickets/Ticket');
 
 module.exports = {
     async handle(message) {
-        const ticket = await ticketModel.findOne({ channel: message.channel.id });
+        const ticket = await ticketModel.findOne({ where: { channel: message.channel.id } });
         if(ticket !== null) {
-            const content = message.content == '' ? message.embeds == null ? null : message.embeds[0].description : message.cleanContent;
-            ticketMessageModel.create({
-                id: message.id,
+            await ticketMessageModel.create({
+                messageId: message.id,
                 author: message.author.id,
                 ticket: ticket.id,
-                content: content,
+                content: message.content == (null || '') ? message.embeds == null ? null : message.embeds[0].description : message.cleanContent,
                 attachments: message.attachments == null ? [] : message.attachments.map(attachment => attachment.attachment),
             });
         }

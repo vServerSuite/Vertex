@@ -1,7 +1,10 @@
 'use strict';
 
-import { MessageEmbed } from 'discord.js';
+const MessageEmbed = require('discord.js').MessageEmbed;
+
 const axios = require('axios').default;
+
+const config = require('../../config.json');
 
 const MessageUtils = require('../utils/MessageUtils');
 
@@ -15,7 +18,7 @@ module.exports = {
     usage: '<link>',
     execute: async (message, args) => {
         MessageUtils.send(message.channel, 'Generating your shortened link...', shortenMessage => {
-            axios.post(`${process.env.SHLINK_URL}/rest/v2/short-urls`, { longUrl: args[0], tags: [`guildId:${message.guild.id}`] }, { headers: { 'X-Api-Key': process.env.SHLINK_API_KEY } })
+            axios.post(`${config.shlink.baseUrl}/rest/v2/short-urls`, { longUrl: args[0], tags: [`guildId:${message.guild.id}`] }, { headers: { 'X-Api-Key': config.shlink.apiKey } })
                 .then(response => {
                     shortenMessage.edit(new MessageEmbed(shortenMessage.embeds[0]).setDescription(`Shortened Link: ${response.data.shortUrl}`));
                 });

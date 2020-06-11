@@ -1,15 +1,15 @@
 'use strict';
 
 const MessageUtils = require('../../utils/MessageUtils');
-const guildModel = require('../../models/Guild');
+
+const guildModel = require('../../db/models/Guild');
 
 module.exports = {
-    handle(guild) {
-        guildModel.create({
+    async handle(guild) {
+        await guildModel.create({
             id: guild.id,
             owner: guild.owner.id,
             name: guild.name,
-            icon: guild.icon,
         });
         console.log(`Vertex has been added to a new guild: ${guild.name}`);
         guild.owner.createDM().then(dm => {

@@ -1,5 +1,6 @@
 const MessageUtils = require('../../utils/MessageUtils');
-const guildModel = require('../../models/Guild');
+
+const guildModel = require('../../db/models/Guild');
 
 module.exports = {
     name: 'prefix',
@@ -10,15 +11,8 @@ module.exports = {
     ownerOnly: true,
     usage: '<prefix>',
     execute: (message, args) => {
-        guildModel.findOneAndUpdate({ id: message.guild.id }, { prefix: args[0] }, error => {
-            if(error) {
-                console.log(error);
-                MessageUtils.sendAndDelete(message.channel, 'There was a problem whilst updating the prefix for this guild', 5);
-            }
-            else {
-                MessageUtils.sendAndDelete(message.channel, `The prefix for this guild has been updated to \`${args[0]}\``, 5);
-            }
-            message.delete({ timeout: 5 });
-        });
+        guildModel.update({ prefix: args[0] }, { where: { id: message.guild.id } })
+            .then(() => MessageUtils.sendAndDelete(message.channel, `The prefix for this guild has been updated to \`${args[0]}\``, 5))
+            .catch(() => MessageUtils.sendAndDelete(message.channel, 'There was a problem whilst updating the prefix for this guild', 5));
     },
 };
