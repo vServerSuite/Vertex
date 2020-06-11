@@ -41,7 +41,7 @@ async function setupTickets(message) {
     MessageUtils.send(message.channel, 'What is the Id of the category that Vertex should create tickets in?', categoryBotMessage => {
         message.channel.awaitMessages(filters.category, filters.options)
             .then(async categoryUserMessage => {
-                ticketValues.category = parseInt(categoryUserMessage.first().content);
+                ticketValues.category = categoryUserMessage.first().content;
                 categoryBotMessage.delete(properties.delete);
                 categoryUserMessage.first().delete(properties.delete);
 

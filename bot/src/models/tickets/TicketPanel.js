@@ -7,7 +7,7 @@ const Long = Schema.Types.Long;
 
 module.exports = global.db.model('TicketPanel', new Schema({
     id: {
-        type: String,
+        type: Long,
         required: true,
         unique: true,
         dropDups: true,
@@ -25,13 +25,8 @@ module.exports = global.db.model('TicketPanel', new Schema({
         required: true,
     },
     message: {
-        id: {
-            type: Long,
-        },
-        content: {
-            type: String,
-            required: true,
-        },
+        type: String,
+        required: true,
     },
     created: {
         type: Date,

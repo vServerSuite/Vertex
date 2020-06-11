@@ -5,7 +5,7 @@ const EmbedGenerator = require('./EmbedGenerator');
 module.exports = {
     getUserFromMention: (client, mention) => {
         const matches = mention.match(/^<@!?(\d+)>$/);
-        return !matches ? null : client.users.cache.get(matches[1]);
+        return !matches ? client.users.cache.get(mention) : client.users.cache.get(matches[1]);
     },
     send: (channel, message, callback = null) => {
         channel.send(EmbedGenerator.generate(message)).then(msg => callback != null ? callback(msg) : msg);

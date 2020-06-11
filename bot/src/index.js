@@ -19,7 +19,7 @@ global.db = mongoose.createConnection(process.env.dbConnection, {
 });
 
 // Discord Client Object
-const client = new Client();
+const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 
 client.commands = new Collection();
 
@@ -38,21 +38,16 @@ function registerCommands(dir) {
 
 registerCommands('src/commands');
 
+client.on('message', message => require('./events/base/message').handle(client, message));
+
 // Ticket Events
-client.on('message', async message => await require('./events/ticket/message').handle(message));
 client.on('messageUpdate', async (oldMessage, newMessage) => await require('./events/ticket/messageUpdate').handle(oldMessage, newMessage));
 client.on('messageReactionAdd', async (messageReaction, user) => await require('./events/ticket/react').handle(messageReaction, user));
 client.on('guildMemberRemove', async member => await require('./events/ticket/leave').handle(member));
 
-// User Updates
-client.on('message', async message => await require('./events/userUpdate').handle(message.author));
-
-// Commands
-client.on('message', async (message) => require('./events/command').handle(message, client));
-
 // Guild Events
 client.on('guildCreate', guild => require('./events/guild/join').handle(guild));
-client.on('guildUpdate', (oldGuild, newGuild) => require('./events/guild/update').handle(oldGuild, newGuild));
+client.on('guildUpdate', async (oldGuild, newGuild) => await require('./events/guild/update').handle(oldGuild, newGuild));
 client.on('guildDelete', async guild => require('./events/guild/leave').handle(guild));
 
 client
@@ -67,5 +62,5 @@ client
         console.log();
         console.log();
 
-        client.user.setPresence({ status: 'online', activity: { name: 'v!help | Vertex' } })
+        client.user.setPresence({ status: 'online', activity: { name: 'v!help | Vertex' } });
     });

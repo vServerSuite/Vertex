@@ -29,14 +29,11 @@ module.exports = {
                         panelMessage.splice(0, 2);
                         MessageUtils.send(message.channel, panelMessage.join(' '), async panel => {
                             await ticketPanel.create({
-                                id: uuidv4(),
+                                id: panel.id,
                                 guild: message.guild.id,
                                 channel: message.channel.id,
                                 create_category: category.id,
-                                message: {
-                                    id: panel.id,
-                                    content: panelMessage.join(' '),
-                                },
+                                message: panelMessage.join(' '),
                             });
                             panel.react('✅');
                         });
