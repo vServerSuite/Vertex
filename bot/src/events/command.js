@@ -10,7 +10,7 @@ const userModel = require('../models/User');
 const cooldowns = new Collection();
 
 module.exports = {
-    async handle(message, client) {
+    async handle(client, message) {
         if (message.author.bot) return;
 
         let guild = null;
