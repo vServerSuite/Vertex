@@ -20,7 +20,7 @@ function registerCommands(dir) {
             registerCommands(fullPath);
         }
         else {
-            const command = require(`.\\commands\\${fullPath.substring(13)}`);
+            const command = require(`./commands/${fullPath.substring(13)}`);
             client.commands.set(command.name, command);
         }
     });
@@ -44,7 +44,7 @@ client.on('guildDelete', async guild => require('./events/guild/leave').handle(g
 const dbConnection = require('./db/database');
 
 function registerModels(dir) {
-    fs.readdirSync(dir).forEach(file => fs.lstatSync(path.join(dir, file)).isDirectory() ? registerModels(path.join(dir, file)) : require(`.\\db\\models\\${path.join(dir, file).substring(13)}`));
+    fs.readdirSync(dir).forEach(file => fs.lstatSync(path.join(dir, file)).isDirectory() ? registerModels(path.join(dir, file)) : require(`./db/models/${path.join(dir, file).substring(13)}`));
 }
 
 registerModels('src/db/models');
