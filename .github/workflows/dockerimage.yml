@@ -10,7 +10,7 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-    - name: Build and publish Docker Image to GitHub Packages Registry
+    - name: Publish Docker Image to vSuite Packages - Latest Tag
       uses: VaultVulp/gp-docker-action@1.1.2
       with:
         # GitHub token to push Docker image to GitHub Packages
@@ -18,6 +18,15 @@ jobs:
         # Docker Image name
         image-name: Vertex
         image-tag: latest
+        dockerfile: Dockerfile
+        build-context: .
+    - name: Public Docker Image to vSuite Packages - Version Tag
+      uses: VaultVulp/gp-docker-action@1.1.2
+      with:
+        # GitHub token to push Docker image to GitHub Packages
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        # Docker Image name
+        image-name: Vertex
         extract-git-tag: true
         dockerfile: Dockerfile
         build-context: .
