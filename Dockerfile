@@ -3,7 +3,7 @@ ADD bot /vertex
 
 WORKDIR /vertex
 
-RUN cp config/config.example.json ../config.example.json
+RUN cp /vertex/config/config.example.json /vertex/config.example.json
 
 RUN yarn install --frozen-lockfile
 
