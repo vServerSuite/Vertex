@@ -1,0 +1,20 @@
+name: Deploy Vertex Nightly
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    - name: Publish Docker Image to vSuite Packages - Latest Tag
+      uses: VaultVulp/gp-docker-action@1.1.2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        image-name: Vertex
+        image-tag: nightly
+        dockerfile: Dockerfile
+        build-context: .
