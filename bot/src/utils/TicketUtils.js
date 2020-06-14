@@ -37,7 +37,7 @@ async function createTicket(discordGuild, channel, user, categoryId = null) {
         MessageUtils.send(channel, 'Your ticket is being created...', ticketCreationMessage => {
             discordGuild.channels.create(`ticket-${newTicketNumber}`, {
                 type: 'text',
-                parent: categoryId == null ? guild.ticket.category.toString() : categoryId,
+                parent: categoryId == null ? guild.ticketCategory.toString() : categoryId,
                 permissionOverwrites: [
                     { id: discordGuild.roles.everyone.id, deny: ['VIEW_CHANNEL'] },
                     { id: user.id, allow: ['VIEW_CHANNEL'] },
@@ -50,7 +50,7 @@ async function createTicket(discordGuild, channel, user, categoryId = null) {
                 });
                 ticketCreationMessage.edit(new MessageEmbed(ticketCreationMessage.embeds[0]).setDescription(`Your ticket has been created: <#${ticketChannel.id}>`));
                 ticketCreationMessage.delete({ timeout: 10000 });
-                MessageUtils.send(ticketChannel, guild.ticket.message);
+                MessageUtils.send(ticketChannel, guild.ticketMessage);
                 ticketChannel.send(`<@${user.id}>`).then(m => m.delete());
             });
         });

@@ -18,5 +18,6 @@ jobs:
         # Docker Image name
         image-name: Vertex
         image-tag: latest
+        extract-git-tag: true
         dockerfile: Dockerfile
         build-context: .
