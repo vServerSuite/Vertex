@@ -4,9 +4,10 @@ const userModel = require('../db/models/User');
 
 module.exports = {
     async handle(user) {
-        await userModel.update({
+        await userModel.upsert({
+            id: user.id,
             username: user.username,
             discrim: user.discriminator,
-        }, { where: { id: user.id } });
+        });
     },
 };
