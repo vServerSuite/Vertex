@@ -9,8 +9,8 @@
         "username": "",
         "password": "",
         "database": "",
-        "enableLogging": true,
-        "charset": "utf8mb4"
+        "enableLogging": false,
+        "charset": ""
     },
 
     "apiTokens": {

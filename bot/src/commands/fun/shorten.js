@@ -4,7 +4,7 @@ const MessageEmbed = require('discord.js').MessageEmbed;
 
 const axios = require('axios').default;
 
-const config = require('../../../config.json');
+const config = require('../../../config/config.json');
 
 const MessageUtils = require('../../utils/MessageUtils');
 
