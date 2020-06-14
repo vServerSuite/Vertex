@@ -36,7 +36,10 @@ module.exports = {
         const permissionMap = permissionModels.map(permission => permission.role);
 
         if(command.requiresPermission && message.author.id !== message.guild.owner.id && message.member.hasPermission('ADMINISTRATOR') == false && message.member.roles.cache.some(role => permissionMap.includes(role.id)) == false) {
-            return MessageUtils.sendAndDelete(message.channel, 'You do not have permission for this command', 10);
+            const user = userModel.findOne({ where: { id: message.author.id } });
+            if(user.coreTeam == false) {
+                return MessageUtils.sendAndDelete(message.channel, 'You do not have permission for this command', 10);
+            }
         }
 
         if (command.args && !args.length) {
