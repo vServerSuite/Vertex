@@ -15,7 +15,7 @@ module.exports = {
         const closeEmbed = EmbedGenerator.generate(`A ticket was closed by <@${ticketCloser}>.`);
         closeEmbed.addField('Id', ticket.id, true);
         closeEmbed.addField('Author', `<@${ticket.author}>`, true);
-        closeEmbed.addField('Logs', `http://example.com/${ticket.guild}/logs/${ticket.id}`, true);
+        // TODO: Implement at a later date: closeEmbed.addField('Logs', `http://example.com/${ticket.guild}/logs/${ticket.id}`, true);
         return closeEmbed;
     },
     createTicket: async message => {
@@ -27,7 +27,7 @@ module.exports = {
 };
 
 function getTotalTickets(guildId, callback) {
-    ticketModel.count({ where: { id: guildId } }).then(c => callback(c));
+    ticketModel.count({ where: { guild: guildId } }).then(c => callback(c));
 }
 
 async function createTicket(discordGuild, channel, user, categoryId = null) {

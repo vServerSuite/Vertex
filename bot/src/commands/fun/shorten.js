@@ -16,6 +16,7 @@ module.exports = {
     guildOnly: true,
     ownerOnly: false,
     usage: '<link>',
+    requiresPermission: true,
     execute: async (message, args) => {
         MessageUtils.send(message.channel, 'Generating your shortened link...', shortenMessage => {
             axios.post(`${config.shlink.baseUrl}/rest/v2/short-urls`, { longUrl: args[0], tags: [`guildId:${message.guild.id}`] }, { headers: { 'X-Api-Key': config.shlink.apiKey } })

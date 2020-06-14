@@ -4,6 +4,7 @@ const Collection = require('discord.js').Collection;
 
 const MessageUtils = require('../utils/MessageUtils');
 
+const commandPermissionModel = require('../db/models/permissions/CommandPermission');
 const guildModel = require('../db/models/Guild');
 const userModel = require('../db/models/User');
 
@@ -30,6 +31,13 @@ module.exports = {
         if (command.guildOnly && message.channel.type !== 'text') return MessageUtils.sendAndDelete(message.channel, 'I can\'t execute that command inside my DMs', 10);
 
         if(command.ownerOnly && message.guild !== null && message.author.id !== message.guild.owner.id) return MessageUtils.sendAndDelete(message.channel, 'This command is limited to the owner of the Guild', 10);
+
+        const permissionModels = await commandPermissionModel.findAll({ where: { command: commandName } });
+        const permissionMap = permissionModels.map(permission => permission.role);
+
+        if(command.requiresPermission && message.author.id !== message.guild.owner.id && message.member.hasPermission('ADMINISTRATOR') == false && message.member.roles.cache.some(role => permissionMap.includes(role.id)) == false) {
+            return MessageUtils.sendAndDelete(message.channel, 'You do not have permission for this command', 10);
+        }
 
         if (command.args && !args.length) {
             let reply = 'This command requires arguments.';

@@ -10,6 +10,7 @@ module.exports = {
     guildOnly: true,
     ownerOnly: true,
     usage: '<prefix>',
+    requiresPermission: true,
     execute: (message, args) => {
         guildModel.update({ prefix: args[0] }, { where: { id: message.guild.id } })
             .then(() => MessageUtils.sendAndDelete(message.channel, `The prefix for this guild has been updated to \`${args[0]}\``, 5))

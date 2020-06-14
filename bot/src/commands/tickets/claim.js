@@ -11,6 +11,7 @@ module.exports = {
     cooldown: 5,
     guildOnly: true,
     ownerOnly: false,
+    requiresPermission: true,
     execute: async (message) => {
         const ticket = await ticketModel.findOne({ where: { channel: message.channel.id } });
 

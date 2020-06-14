@@ -12,6 +12,7 @@ module.exports = {
     guildOnly: true,
     ownerOnly: false,
     usage: '<@user>',
+    requiresPermission: true,
     execute: async (message, args) => {
         const ticket = await ticketModel.findOne({ where: { channel: message.channel.id } });
         if(ticket !== null) {

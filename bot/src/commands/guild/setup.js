@@ -12,6 +12,7 @@ module.exports = {
     guildOnly: false,
     ownerOnly: false,
     usage: '<tickets>',
+    requiresPermission: true,
     execute: async (message, args) => {
         if(args[0]) {
             switch(args[0].toLowerCase()) {

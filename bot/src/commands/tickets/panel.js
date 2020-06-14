@@ -12,6 +12,7 @@ module.exports = {
     guildOnly: true,
     ownerOnly: false,
     usage: '<create/list/remove>',
+    requiresPermission: true,
     execute: async (message, args) => {
         if(args[0]) {
             switch(args[0].toLowerCase()) {
