@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 if [ -f "/vertex/config/config.json" ]; then
   node src/index.js
 else

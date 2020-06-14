@@ -8,4 +8,4 @@ FROM mhart/alpine-node:12.18.0
 COPY --from=build-env /vertex /vertex
 WORKDIR /vertex
 
-CMD ["./entrypoint.sh"]
+CMD ["sh", "/vertex/entrypoint.sh"]
