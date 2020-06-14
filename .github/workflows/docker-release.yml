@@ -1,4 +1,4 @@
-name: Create & Deploy Vertex to Docker
+name: Deploy Vertex Release
 
 on:
   release:
