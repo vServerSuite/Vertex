@@ -2,7 +2,7 @@
 
 const MessageEmbed = require('discord.js').MessageEmbed;
 
-const MessageUtils = require('../utils/MessageUtils');
+const MessageUtils = require('../../utils/MessageUtils');
 
 module.exports = {
     name: 'ping',

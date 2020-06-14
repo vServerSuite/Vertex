@@ -1,8 +1,8 @@
 'use strict';
 
-const version = require('../../package.json').version;
+const version = require('../../../package.json').version;
 
-const EmbedGenerator = require('../utils/EmbedGenerator');
+const EmbedGenerator = require('../../utils/EmbedGenerator');
 
 module.exports = {
     name: 'about',

@@ -1,8 +1,8 @@
 'use strict';
 
-const MessageUtils = require('../utils/MessageUtils');
+const MessageUtils = require('../../utils/MessageUtils');
 
-const guildModel = require('../db/models/Guild');
+const guildModel = require('../../db/models/Guild');
 
 module.exports = {
     name: 'setup',
