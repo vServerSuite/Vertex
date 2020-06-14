@@ -22,7 +22,8 @@ module.exports = {
             else {
                 const permissions = await commandPermissionModel.findAll({ where: { guild: message.guild.id, command: commandName } });
                 const permissionMap = permissions.map(permission => `\n- <@&${permission.role}> \`(${permission.role})\``);
-                if(permissionMap.size > 0) {
+
+                if(permissionMap.length > 0) {
                     const embedString = `Permissions for **v!${commandName}**: ${permissionMap.join()}`;
                     MessageUtils.send(message.channel, embedString);
                 }
