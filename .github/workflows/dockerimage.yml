@@ -1,8 +1,8 @@
-name: Create Docker Image
+name: Create & Deploy Vertex to Docker
 
 on:
-  push:
-    branches: [ master ]
+  release:
+    types: [published]
 
 jobs:
   build:
