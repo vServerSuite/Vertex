@@ -5,6 +5,7 @@ const Collection = require('discord.js').Collection;
 const MessageUtils = require('../utils/MessageUtils');
 
 const commandPermissionModel = require('../db/models/permissions/CommandPermission');
+const customCommandModel = require('../db/models/CustomCommand');
 const guildModel = require('../db/models/Guild');
 const userModel = require('../db/models/User');
 
@@ -26,7 +27,13 @@ module.exports = {
 
         const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
-        if (command == null) return;
+        if (command == null) {
+            if(message.guild !== null) {
+                const customCommand = await customCommandModel.findOne({ where: { guild: message.guild.id, trigger: commandName } });
+                return customCommand == null ? null : MessageUtils.send(message.channel, customCommand.response);
+            }
+            return;
+        }
 
         if (command.guildOnly && message.channel.type !== 'text') return MessageUtils.sendAndDelete(message.channel, 'I can\'t execute that command inside my DMs', 10);
 
