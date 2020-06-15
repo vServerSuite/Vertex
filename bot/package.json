@@ -1,6 +1,6 @@
 {
   "name": "vertex",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Vertex Discord Bot",
   "main": "src/index.js",
   "repository": "https://github.com/vServerSuite/Vertex",
