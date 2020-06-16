@@ -2,7 +2,7 @@ name: Deploy Vertex Nightly
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
