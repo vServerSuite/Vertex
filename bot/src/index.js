@@ -9,7 +9,10 @@ const fs = require('fs');
 const path = require('path');
 
 // Discord Client Object
-const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
+const client = new Discord.Client({
+    partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
+    presence: { status: 'online', activity: { name: 'v!help | Vertex' } },
+});
 
 client.commands = new Discord.Collection();
 
@@ -64,6 +67,4 @@ client
         console.log(`- Command Count: ${client.commands.size}`);
         console.log();
         console.log();
-
-        client.user.setPresence({ status: 'online', activity: { name: 'v!help | Vertex' } });
     });
