@@ -11,7 +11,6 @@ const path = require('path');
 // Discord Client Object
 const client = new Discord.Client({
     partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
-    presence: { status: 'online', activity: { name: 'v!help | Vertex' } },
 });
 
 client.commands = new Discord.Collection();
@@ -59,12 +58,9 @@ dbConnection.authenticate()
 client
     .login(config.botSettings.token)
     .then(() => {
-        console.log();
-        console.log();
-        console.log('Vertex has been loaded and is listening for commands');
+        console.log('\n\nVertex has been loaded and is listening for commands');
         console.log('Statistics:');
         console.log(`- Current Guilds: ${client.guilds.cache.size}`);
-        console.log(`- Command Count: ${client.commands.size}`);
-        console.log();
-        console.log();
+        console.log(`- Command Count: ${client.commands.size}\n\n`);
+        client.user.setPresence({ status: 'online', activity: { type: 'WATCHING', name: `${client.guilds.cache.size} Guilds` } });
     });
