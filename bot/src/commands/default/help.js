@@ -1,5 +1,7 @@
 'use strict';
 
+const commandPermissionModel = require('../../db/models/permissions/CommandPermission');
+
 module.exports = {
     name: 'help',
     description: 'List all commands or info about a specific command',
@@ -9,7 +11,7 @@ module.exports = {
     guildOnly: false,
     ownerOnly: false,
     usage: '<command>',
-    execute: (message, args) => {
+    execute: async (message, args) => {
         const data = [];
         const {
             commands,
@@ -17,8 +19,15 @@ module.exports = {
 
         if (!args.length) {
             data.push('Here\'s a list of all my commands:');
-            commands.forEach(command => data.push(`- **v!${command.name}**: *${command.description}*`));
-            data.push('\nYou can send `v!help [command name]` to get info on a specific command!');
+            const permissionModels = await commandPermissionModel.findAll({ where: { guild: message.guild.id } });
+            await commands.forEach(async command => {
+                const permissionMap = permissionModels.length == 0 ? [] : permissionModels.find(permission => permission.command === command.name).map(permission => permission.role);
+                const hasPermission = command.requiresPermission ? message.author.id === message.guild.owner.id || message.member.hasPermission('ADMINISTRATOR') || message.member.roles.cache.some(role => permissionMap.includes(role.id)) : true;
+
+                data.push(`- ${!hasPermission ? '~~' : ''}**v!${command.name}**: *${command.description}*${!hasPermission ? '~~' : ''}`);
+            });
+            data.push('\n\nIf a command is struck through, it means that you do not have permission to use it');
+            data.push('You can send `v!help [command name]` to get info on a specific command!');
 
             return message.author.send(data, {
                 split: true,

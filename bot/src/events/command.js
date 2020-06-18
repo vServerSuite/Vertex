@@ -83,5 +83,7 @@ module.exports = {
             console.error(error);
             MessageUtils.sendAndDelete(message.channel, 'There was an error whilst typing to dispatch that command.', 10);
         }
+
+        message.delete();
     },
 };
