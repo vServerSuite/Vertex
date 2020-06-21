@@ -1,5 +1,5 @@
 #!/bin/sh
-if [ -f "/vertex/config/config.json" || -f "/vertex/config/database.json" ]; then
+if [ -f "/vertex/config/database.json" ]; then
   npx sequelize db:migrate --env db
   node src/index.js
 else
