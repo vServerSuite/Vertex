@@ -8,11 +8,9 @@ RUN cp /vertex/config/database.example.json /vertex/database.example.json
 
 RUN yarn install --frozen-lockfile
 
-RUN yarn global add sequelize-cli
-
 FROM mhart/alpine-node:12.18.0
 
-RUN npm global add sequelize-cli
+RUN npm install -g sequelize-cli
 COPY --from=build-env /vertex /vertex
 WORKDIR /vertex
 
