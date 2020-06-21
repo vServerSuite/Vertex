@@ -1,19 +1,15 @@
 'use strict';
 
-const config = require('../../config/config.json');
+const dbConfig = require('../../config/database.json').db;
 
 const Sequelize = require('sequelize');
 
-const con = new Sequelize(config.dbConnection.database, config.dbConnection.username, config.dbConnection.password, {
-    host: config.dbConnection.host,
-    dialect: config.dbConnection.dialect,
-    logging: config.dbConnection.enableLogging == true ? console.log : false,
+module.exports = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
+    host: dbConfig.host,
+    dialect: dbConfig.dialect,
+    logging: dbConfig.enableLogging == true ? console.log : false,
     define: {
-        charset: config.dbConnection.charset,
+        charset: dbConfig.charset,
         timestamps: false,
     },
 });
-
-con.sync();
-
-module.exports = con;

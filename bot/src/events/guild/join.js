@@ -11,6 +11,7 @@ module.exports = {
             owner: guild.owner.id,
             name: guild.name,
         });
+        guild.client.user.setPresence({ status: 'online', activity: { type: 'WATCHING', name: `${guild.client.guilds.cache.size} Guilds` } });
         console.log(`Vertex has been added to a new guild: ${guild.name}`);
         guild.owner.createDM().then(dm => {
             MessageUtils.send(dm, `Thanks for inviting Vertex to **${guild.name}**`);

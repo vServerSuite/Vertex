@@ -45,12 +45,6 @@ client.on('guildDelete', async guild => require('./events/guild/leave').handle(g
 // Database
 const dbConnection = require('./db/database');
 
-function registerModels(dir) {
-    fs.readdirSync(dir).forEach(file => fs.lstatSync(path.join(dir, file)).isDirectory() ? registerModels(path.join(dir, file)) : require(`./db/models/${path.join(dir, file).substring(13)}`));
-}
-
-registerModels('src/db/models');
-
 dbConnection.authenticate()
     .then(() => console.log('Connection has been established to the database'))
     .catch(err => console.error('Unable to connect to the database', err));
