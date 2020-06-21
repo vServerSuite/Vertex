@@ -14,7 +14,7 @@ jobs:
       uses: VaultVulp/gp-docker-action@1.1.2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        image-name: Vertex
-        image-tag: nightly
+        image-name: vertex-nightly
+        image-tag: latest
         dockerfile: Dockerfile
         build-context: .

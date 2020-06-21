@@ -3,16 +3,6 @@
         "token": ""
     },
 
-    "dbConnection": {
-        "dialect": "",
-        "host": "",
-        "username": "",
-        "password": "",
-        "database": "",
-        "enableLogging": false,
-        "charset": ""
-    },
-
     "apiTokens": {
         "catApi": "",
         "dogApi": ""
